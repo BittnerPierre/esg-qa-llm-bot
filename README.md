@@ -61,3 +61,4 @@ python ingest.py
 
 Boom! Now you're done.
 
+We provide a vector database initialized on Total Energies and Engie 2022 corporate reports and their wikipedia page.
