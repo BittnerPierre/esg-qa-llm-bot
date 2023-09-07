@@ -1,0 +1,13 @@
+#langchain==0.0.170
+langchain==0.0.283
+openai
+faiss-cpu
+streamlit~=1.26.0
+streamlit-chat
+tiktoken
+# faiss
+
+transformers~=4.32.0
+pypdf2~=3.0.1
+requests~=2.31.0
+pydantic~=1.10.12
