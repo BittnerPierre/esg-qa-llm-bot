@@ -1,9 +1,11 @@
 #langchain==0.0.170
 langchain==0.0.283
+langchain-experimental
 openai
 faiss-cpu
 streamlit~=1.26.0
 streamlit-chat
+streamlit-feedback
 tiktoken
 # faiss
 
@@ -13,3 +15,12 @@ requests~=2.31.0
 pydantic~=1.10.12
 tqdm~=4.66.1
 beautifulsoup4~=4.12.2
+
+pypdf
+sentence_transformers
+langchain[docarray]
+
+torch
+tabulate
+
+# duckduckgo-search = "^3.8.3"
