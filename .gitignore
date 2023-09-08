@@ -163,3 +163,5 @@ text/*
 .streamlit
 .streamlit/secrets.toml
 *.DS_STORE
+./data/*
+./data/parsed/*
