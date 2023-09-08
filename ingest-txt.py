@@ -1,4 +1,6 @@
 # import textract
+import shutil
+
 from transformers import GPT2TokenizerFast
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
@@ -9,7 +11,7 @@ import faiss
 from PyPDF2 import PdfReader
 import pickle
 
-def process_pdf_folder(pdf_folder_name, txt_folder_name):
+def process_txt_folder(txt_input_folder_name, txt_folder_name):
     # Initialize tokenizer
     tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
 
@@ -27,31 +29,21 @@ def process_pdf_folder(pdf_folder_name, txt_folder_name):
     )
 
     # Iterate over all files in the folder
-    for filename in os.listdir(pdf_folder_name):
+    for filename in os.listdir(txt_input_folder_name):
         # Only process PDF files
-        if filename.endswith(".pdf"):
+        if filename.endswith(".txt"):
             # Full path to the file
-            filepath = os.path.join(pdf_folder_name, filename)
+            filepath = os.path.join(txt_input_folder_name, filename)
 
-            print("Processing PDF:", filename)
+            print("Processing TXT:", filename)
 
             # Write the extracted text to a .txt file
-            txt_filename = filename.replace(".pdf", ".txt")
+            txt_filename = filename
             txt_filepath = os.path.join(txt_folder_name, txt_filename)
             path = Path(txt_filepath)
             if not path.is_file():
-                print("Generating text:", txt_filename)
-                # Extract text from the PDF file
-                with open(filepath, 'rb') as pdf_file:
-                    pdf_reader = PdfReader(pdf_file)
-                    doc = ""
-                    # Iterate through each page of the PDF
-                    for page in range(len(pdf_reader.pages)):
-                        doc += pdf_reader.pages[page].extract_text()
-                # doc = textract.process(filepath)
-
-                with open(txt_filepath, 'w') as f:
-                    f.write(doc)
+                print("Storing text:", txt_filename)
+                shutil.copy(filepath, txt_filepath)
 
             # Read the .txt file
             with open(txt_filepath, 'r') as f:
@@ -72,7 +64,7 @@ def process_pdf_folder(pdf_folder_name, txt_folder_name):
 
 
 # Store embeddings to vector db
-all_chunks, metadatas = process_pdf_folder("./pdf", "./text");
+all_chunks, metadatas = process_txt_folder("./text-input", "./text");
 
 # Here we create a vector store from the documents and save it to disk.
 db = FAISS.from_texts(all_chunks, OpenAIEmbeddings(), metadatas=metadatas)
